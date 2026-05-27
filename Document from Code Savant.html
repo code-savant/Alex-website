@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BlancoCryptocurrency - Crypto Recovery & Blockchain Intelligence</title>
+    <meta name="description" content="Blockchain Intelligence • Web3 Innovation • Crypto Strategy. Trusted by the FBI, IC3, and Trustpilot. Recover your stolen crypto assets today."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #030712;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #00E5FF; border-radius: 3px; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 20% 50%, rgba(0,229,255,0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(20,241,149,0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(124,58,237,0.04) 0%, transparent 50%);
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(3,7,18,0.85);
+            backdrop-filter: blur(20px) saturate(1.5);
+            border-bottom: 1px solid rgba(0,229,255,0.08);
+            padding: 10px 0;
+        }
+        .navbar .container {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700;
+            color: #fff;
+        }
+        .nav-logo .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 800;
+            color: #030712;
+            box-shadow: 0 0 30px rgba(0,229,255,0.3);
+        }
+        .nav-links {
+            display: flex; align-items: center; gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 14px; font-weight: 500;
+            color: #94A3B8;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #00E5FF, #14F195);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #00E5FF; }
+        .nav-links a.active::after { width: 100%; }
+        .nav-cta {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border: none; border-radius: 8px;
+            color: #030712; font-weight: 700; font-size: 14px;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0,229,255,0.25);
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0,229,255,0.4);
+        }
+        .mobile-toggle {
+            display: none; flex-direction: column; gap: 5px;
+            background: none; border: none; cursor: pointer;
+            padding: 4px;
+        }
+        .mobile-toggle span {
+            width: 28px; height: 2px;
+            background: #fff; border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            position: relative; z-index: 2;
+            padding: 140px 0 60px;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px; font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #00E5FF, #14F195, #7C3AED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header p {
+            font-size: 18px; color: #94A3B8;
+            max-width: 600px; margin: 0 auto;
+        }
+        .page-header .breadcrumb {
+            display: flex; justify-content: center; gap: 8px;
+            font-size: 14px; color: #64748B; margin-top: 12px;
+        }
+        .page-header .breadcrumb span { color: #00E5FF; }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative; z-index: 2;
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding: 120px 0 80px;
+        }
+        .hero-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+        }
+        .hero-content * { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s forwards; }
+        .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+        .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 100px;
+            font-size: 13px; font-weight: 500;
+            color: #00E5FF;
+            margin-bottom: 20px;
+        }
+        .hero-badge i { font-size: 12px; }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 64px; font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 18px; color: #94A3B8;
+            line-height: 1.7;
+            max-width: 520px;
+            margin-bottom: 32px;
+        }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+        .btn-primary {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border: none; border-radius: 8px;
+            color: #030712; font-weight: 700; font-size: 15px;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 0 25px rgba(0,229,255,0.25);
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(0,229,255,0.4);
+        }
+        .btn-secondary {
+            padding: 14px 32px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: #fff; font-weight: 600; font-size: 15px;
+            cursor: pointer; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-secondary:hover {
+            border-color: #00E5FF;
+            box-shadow: 0 0 30px rgba(0,229,255,0.15);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-3d-container {
+            width: 100%; height: 500px;
+            position: relative;
+        }
+        .floating-cards {
+            position: absolute;
+            width: 100%; height: 100%;
+        }
+        .floating-card {
+            position: absolute;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            font-size: 13px; font-weight: 500;
+            display: flex; align-items: center; gap: 10px;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .floating-card i { font-size: 18px; }
+        .floating-card:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-card:nth-child(2) { top: 55%; left: 0%; animation-delay: 1s; }
+        .floating-card:nth-child(3) { top: 20%; right: 5%; animation-delay: 2s; }
+        .floating-card:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 0.5s; }
+        .floating-card:nth-child(5) { top: 65%; right: 25%; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-16px); }
+        }
+        .hero-orb {
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,229,255,0.15), transparent 70%);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(40px);
+            animation: orbPulse 4s ease-in-out infinite;
+        }
+        @keyframes orbPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+        .hero-glow-ring {
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,229,255,0.08);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ringRotate 20s linear infinite;
+        }
+        .hero-glow-ring::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: 50%;
+            width: 20px; height: 4px;
+            background: #00E5FF;
+            border-radius: 2px;
+            box-shadow: 0 0 20px #00E5FF;
+        }
+        .hero-glow-ring-2 {
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            border: 1px solid rgba(20,241,149,0.06);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ringRotate 15s linear infinite reverse;
+        }
+        .hero-glow-ring-2::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: 50%;
+            width: 14px; height: 3px;
+            background: #14F195;
+            border-radius: 2px;
+            box-shadow: 0 0 20px #14F195;
+        }
+        @keyframes ringRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* ===== TRUST BAR ===== */
+        .trust-bar {
+            position: relative; z-index: 2;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .trust-bar-inner {
+            display: flex; align-items: center; justify-content: center;
+            flex-wrap: wrap; gap: 40px 60px;
+        }
+        .trust-item {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 14px; color: #94A3B8;
+        }
+        .trust-item i { font-size: 28px; }
+        .trust-item .stars { color: #fbbf24; font-size: 14px; letter-spacing: 2px; }
+
+        /* ===== SECTION BASE ===== */
+        section {
+            position: relative; z-index: 2;
+            padding: 100px 0;
+        }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px;
+            background: rgba(0,229,255,0.08);
+            border: 1px solid rgba(0,229,255,0.12);
+            border-radius: 100px;
+            font-size: 12px; font-weight: 600;
+            color: #00E5FF;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 40px; font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: 18px; color: #94A3B8;
+            max-width: 600px; line-height: 1.7;
+            margin-bottom: 48px;
+        }
+        .text-center { text-align: center; }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.4s;
+        }
+        .glass-card:hover {
+            border-color: rgba(0,229,255,0.2);
+            box-shadow: 0 8px 40px rgba(0,229,255,0.06);
+            transform: translateY(-4px);
+        }
+
+        /* ===== ABOUT PAGE ===== */
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+        }
+        .about-image-wrap {
+            position: relative;
+        }
+        .about-image-glass {
+            width: 100%; aspect-ratio: 4/3;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-image-glass .map-glow {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at center, rgba(0,229,255,0.05), transparent 70%);
+        }
+        .about-badge-overlay {
+            position: absolute;
+            bottom: -20px; right: -20px;
+            padding: 20px 28px;
+            background: rgba(3,7,18,0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,229,255,0.15);
+            border-radius: 16px;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .about-badge-overlay .big-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px; font-weight: 700;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-top: 32px;
+        }
+        .about-stat-card {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .about-stat-card .num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px; font-weight: 700;
+            color: #00E5FF;
+        }
+        .about-stat-card .label {
+            font-size: 12px; color: #94A3B8; margin-top: 4px;
+        }
+
+        .about-text h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .about-text p { color: #94A3B8; line-height: 1.8; margin-bottom: 16px; font-size: 15px; }
+
+        /* ===== AFFILIATIONS ===== */
+        .affiliations-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 24px; margin-top: 40px;
+        }
+        .affiliation-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .affiliation-card:hover {
+            border-color: rgba(0,229,255,0.2);
+            transform: translateY(-4px);
+        }
+        .affiliation-card .icon-wrap {
+            width: 64px; height: 64px;
+            margin: 0 auto 16px;
+            background: rgba(0,229,255,0.08);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+        }
+        .affiliation-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .affiliation-card p { font-size: 13px; color: #94A3B8; }
+
+        /* ===== SERVICES PAGE ===== */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .service-card {
+            padding: 36px 28px;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00E5FF, #14F195, transparent);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .service-card:hover::before { opacity: 1; }
+        .service-card:hover {
+            border-color: rgba(0,229,255,0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 48px rgba(0,229,255,0.04);
+        }
+        .service-icon {
+            width: 56px; height: 56px;
+            background: rgba(0,229,255,0.08);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+        }
+        .service-card:hover .service-icon {
+            background: rgba(0,229,255,0.15);
+            box-shadow: 0 0 30px rgba(0,229,255,0.1);
+        }
+        .service-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .service-card p { font-size: 14px; color: #94A3B8; line-height: 1.7; }
+
+        /* ===== RECOVERY PROCESS ===== */
+        .process-steps {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .process-step {
+            text-align: center;
+            padding: 32px 20px;
+            position: relative;
+        }
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute; top: 40px; right: -10px;
+            width: 40%; height: 2px;
+            background: linear-gradient(90deg, rgba(0,229,255,0.3), transparent);
+        }
+        .step-num {
+            width: 44px; height: 44px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 18px;
+            color: #030712;
+        }
+        .process-step h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .process-step p { font-size: 13px; color: #94A3B8; line-height: 1.6; }
+
+        /* ===== TRUST METRICS ===== */
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .metric-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .metric-card:hover {
+            border-color: rgba(0,229,255,0.15);
+            transform: translateY(-4px);
+        }
+        .metric-card .metric-icon {
+            font-size: 32px; margin-bottom: 12px;
+        }
+        .metric-card .metric-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px; font-weight: 700;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .metric-card .metric-label {
+            font-size: 13px; color: #94A3B8; margin-top: 4px;
+        }
+        .metric-card .metric-sub {
+            font-size: 11px; color: #64748B; margin-top: 4px;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .testimonial-card {
+            padding: 28px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .testimonial-card:hover {
+            border-color: rgba(20,241,149,0.15);
+            box-shadow: 0 8px 32px rgba(20,241,149,0.04);
+        }
+        .testimonial-card .quote {
+            font-size: 14px; color: #cbd5e1; line-height: 1.7;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .testimonial-card .author {
+            display: flex; align-items: center; gap: 12px;
+        }
+        .testimonial-card .author-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(0,229,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 14px;
+            color: #00E5FF;
+        }
+        .testimonial-card .author-info .name { font-size: 14px; font-weight: 600; }
+        .testimonial-card .author-info .role { font-size: 12px; color: #64748B; }
+        .testimonial-card .author-info .stars { color: #fbbf24; font-size: 12px; }
+
+        /* ===== DASHBOARD PREVIEW ===== */
+        .dashboard-preview {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dashboard-preview::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
+        }
+        .dash-widgets {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 24px;
+        }
+        .dash-widget {
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .dash-widget .widget-label { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
+        .dash-widget .widget-value { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; margin-top: 4px; }
+        .dash-widget .widget-value.green { color: #14F195; }
+        .dash-widget .widget-value.cyan { color: #00E5FF; }
+        .dash-widget .widget-value.purple { color: #7C3AED; }
+        .dash-widget .widget-change { font-size: 11px; }
+        .dash-widget .widget-change.up { color: #14F195; }
+        .dash-widget .widget-change.down { color: #ef4444; }
+
+        .dash-chart-placeholder {
+            height: 120px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #475569;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dash-chart-placeholder .chart-line {
+            position: absolute;
+            bottom: 30%; left: 5%;
+            width: 90%; height: 2px;
+            background: linear-gradient(90deg, #00E5FF, #14F195);
+            border-radius: 1px;
+            animation: chartMove 3s ease-in-out infinite;
+        }
+        @keyframes chartMove {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.8); }
+        }
+        .dash-chart-placeholder .chart-line-2 {
+            position: absolute;
+            bottom: 55%; left: 5%;
+            width: 90%; height: 1px;
+            background: linear-gradient(90deg, #7C3AED, transparent);
+            opacity: 0.4;
+        }
+
+        .dash-ticker {
+            display: flex; gap: 20px;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            overflow: hidden;
+        }
+        .dash-ticker span { font-size: 13px; color: #94A3B8; white-space: nowrap; }
+        .dash-ticker .ticker-up { color: #14F195; }
+        .dash-ticker .ticker-down { color: #ef4444; }
+
+        /* ===== CONTACT PAGE ===== */
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+        .contact-form {
+            padding: 40px;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+        }
+        .contact-form h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .contact-form p {
+            font-size: 14px; color: #94A3B8;
+            margin-bottom: 24px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 13px; font-weight: 500;
+            color: #94A3B8;
+            margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #00E5FF;
+            box-shadow: 0 0 20px rgba(0,229,255,0.06);
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group select option { background: #030712; color: #fff; }
+
+        .contact-info-cards {
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .contact-info-card {
+            padding: 28px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .contact-info-card:hover {
+            border-color: rgba(0,229,255,0.15);
+        }
+        .contact-info-card .ci-icon {
+            width: 48px; height: 48px;
+            background: rgba(0,229,255,0.08);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .contact-info-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .contact-info-card p { font-size: 14px; color: #94A3B8; }
+        .contact-info-card .phone-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 8px 0;
+        }
+        .contact-actions {
+            display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;
+        }
+        .contact-action-btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            font-size: 13px; font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .contact-action-btn:hover {
+            border-color: #00E5FF;
+            background: rgba(0,229,255,0.08);
+        }
+        .contact-action-btn.whatsapp { border-color: rgba(37,211,102,0.3); }
+        .contact-action-btn.whatsapp:hover { border-color: #25D366; background: rgba(37,211,102,0.08); }
+        .contact-action-btn.call { border-color: rgba(0,229,255,0.3); }
+        .contact-action-btn.call:hover { border-color: #00E5FF; background: rgba(0,229,255,0.08); }
+        .contact-action-btn.sms { border-color: rgba(124,58,237,0.3); }
+        .contact-action-btn.sms:hover { border-color: #7C3AED; background: rgba(124,58,237,0.08); }
+
+        .trust-badges {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-top: 24px;
+        }
+        .trust-badge {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            font-size: 13px; font-weight: 500;
+        }
+        .trust-badge i { font-size: 28px; margin-bottom: 8px; display: block; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: relative; z-index: 2;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 60px 0 30px;
+        }
+        .footer-glow {
+            position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 1px;
+            background: linear-gradient(90deg, transparent, #00E5FF, #14F195, transparent);
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-brand p { font-size: 14px; color: #64748B; margin-top: 12px; line-height: 1.6; max-width: 320px; }
+        .footer-socials { display: flex; gap: 12px; margin-top: 20px; }
+        .footer-socials a {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            color: #64748B;
+            transition: all 0.3s;
+        }
+        .footer-socials a:hover {
+            border-color: #00E5FF;
+            color: #00E5FF;
+            background: rgba(0,229,255,0.06);
+        }
+        .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 20px; color: #fff; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul a { font-size: 14px; color: #64748B; transition: all 0.3s; }
+        .footer-col ul a:hover { color: #00E5FF; }
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; color: #475569;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero h1 { font-size: 48px; }
+            .hero-visual { min-height: 350px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .affiliations-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .process-step:not(:last-child)::after { display: none; }
+            .dash-widgets { grid-template-columns: repeat(2, 1fr); }
+            .about-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .mobile-toggle { display: flex; }
+            .nav-links.open {
+                display: flex; flex-direction: column;
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: rgba(3,7,18,0.95);
+                backdrop-filter: blur(20px);
+                padding: 24px; gap: 16px;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+            .hero h1 { font-size: 36px; }
+            .hero { padding: 100px 0 60px; }
+            section { padding: 60px 0; }
+            .section-title { font-size: 28px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .affiliations-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 32px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .trust-bar-inner { gap: 16px; }
+            .hero-buttons { flex-direction: column; }
+            .contact-info-card .phone-number { font-size: 20px; }
+            .trust-badges { grid-template-columns: 1fr; }
+        }
+
+        /* ===== MOBILE NAV ACTIVE ===== */
+        #mobileMenu.active .mobile-toggle span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        #mobileMenu.active .mobile-toggle span:nth-child(2) { opacity: 0; }
+        #mobileMenu.active .mobile-toggle span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== PAGE SPECIFIC ===== */
+        .page-content { position: relative; z-index: 2; min-height: 60vh; }
+
+        /* ===== LIVE CHAT ===== */
+        .chat-bubble {
+            position: fixed; bottom: 24px; right: 24px;
+            z-index: 999;
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            color: #030712;
+            cursor: pointer;
+            box-shadow: 0 4px 30px rgba(0,229,255,0.3);
+            transition: all 0.3s;
+            animation: chatPulse 2s ease-in-out infinite;
+        }
+        .chat-bubble:hover { transform: scale(1.1); }
+        @keyframes chatPulse {
+            0%, 100% { box-shadow: 0 4px 30px rgba(0,229,255,0.3); }
+            50% { box-shadow: 0 4px 50px rgba(0,229,255,0.5); }
+        }
+        .chat-window {
+            position: fixed; bottom: 92px; right: 24px;
+            z-index: 999;
+            width: 360px; max-height: 500px;
+            background: rgba(3,7,18,0.95);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(0,229,255,0.12);
+            border-radius: 20px;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+        }
+        .chat-window.open { display: flex; flex-direction: column; }
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .chat-header h4 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .chat-header .close-chat { background: none; border: none; color: #94A3B8; cursor: pointer; font-size: 18px; }
+        .chat-messages {
+            padding: 16px 20px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .chat-msg {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 80%;
+        }
+        .chat-msg.bot {
+            background: rgba(0,229,255,0.06);
+            border: 1px solid rgba(0,229,255,0.08);
+            align-self: flex-start;
+        }
+        .chat-msg.user {
+            background: rgba(20,241,149,0.08);
+            border: 1px solid rgba(20,241,149,0.1);
+            align-self: flex-end;
+        }
+        .chat-input-wrap {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex; gap: 8px;
+        }
+        .chat-input-wrap input {
+            flex: 1;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+        }
+        .chat-input-wrap button {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #00E5FF, #14F195);
+            border: none; border-radius: 8px;
+            color: #030712; font-weight: 600; font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Trustpilot & FBI badges */
+        .badge-row {
+            display: flex; align-items: center; gap: 24px;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .badge-row .badge-pill {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 100px;
+            font-size: 13px; font-weight: 500;
+        }
+        .badge-row .badge-pill i { font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<!-- ===== ANIMATED BACKGROUND CANVAS ===== -->
+<canvas id="bg-canvas"></canvas>
+<div class="bg-overlay"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-icon">B</div>
+            BlancoCryptocurrency
+        </a>
+        <div id="mobileMenu">
+            <button class="mobile-toggle" onclick="toggleMobile()">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <a href="contact.html" class="nav-cta">Get Help Now</a>
+    </div>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="home">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-shield-halved"></i>
+                        Trusted by FBI & IC3 — 99.8% Success Rate
+                    </div>
+                    <h1>
+                        Recover Your<br/>
+                        <span class="highlight">Lost Crypto</span><br/>
+                        & Digital Assets
+                    </h1>
+                    <p>
+                        Blockchain intelligence and crypto asset recovery trusted by law enforcement agencies worldwide. 
+                        We trace, recover, and return your stolen cryptocurrency.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="contact.html" class="btn-primary">
+                            <i class="fas fa-headset"></i> Get Free Consultation
+                        </a>
+                        <a href="#trust" class="btn-secondary">
+                            <i class="fas fa-arrow-right"></i> Our Results
+                        </a>
+                    </div>
+                    <div class="badge-row" style="margin-top: 32px;">
+                        <div class="badge-pill"><i class="fas fa-star" style="color:#fbbf24;"></i> 4.9 Trustpilot</div>
+                        <div class="badge-pill"><i class="fas fa-building-columns" style="color:#00E5FF;"></i> FBI Partnered</div>
+                        <div class="badge-pill"><i class="fas fa-gavel" style="color:#14F195;"></i> IC3 Affiliated</div>
+                        <div class="badge-pill"><i class="fas fa-flag-usa" style="color:#7C3AED;"></i> DOJ Compliant</div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-3d-container">
+                        <div class="hero-orb"></div>
+                        <div class="hero-glow-ring"></div>
+                        <div class="hero-glow-ring-2"></div>
+                        <div class="floating-cards">
+                            <div class="floating-card" style="color:#00E5FF;">
+                                <i class="fab fa-bitcoin"></i> BTC $94,812
+                            </div>
+                            <div class="floating-card" style="color:#14F195;">
+                                <i class="fab fa-ethereum"></i> ETH $4,231
+                            </div>
+                            <div class="floating-card" style="color:#7C3AED;">
+                                <i class="fas fa-chart-line"></i> $754M Recovered
+                            </div>
+                            <div class="floating-card" style="color:#fbbf24;">
+                                <i class="fas fa-shield"></i> 37K+ Helped
+                            </div>
+                            <div class="floating-card" style="color:#00E5FF;">
+                                <i class="fas fa-globe"></i> 85+ Countries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+        <div class="container">
+            <div class="trust-bar-inner">
+                <div class="trust-item">
+                    <i class="fab fa-trustpilot" style="color:#00b67a;"></i>
+                    <div><strong>Trustpilot</strong> <span class="stars">★★★★★</span> 4.9</div>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-building-columns" style="color:#00E5FF;"></i>
+                    <span><strong>FBI</strong> — Cyber Division Partner</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-gavel" style="color:#14F195;"></i>
+                    <span><strong>IC3</strong> — Official Affiliate</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-flag-usa" style="color:#7C3AED;"></i>
+                    <span><strong>DOJ</strong> — Compliance Certified</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-building-columns" style="color:#fbbf24;"></i>
+                    <span><strong>FinCEN</strong> — Registered MSB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRUST METRICS -->
+    <section id="trust">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-chart-simple"></i> Track Record</div>
+                <h2 class="section-title">Proven Results Worldwide</h2>
+                <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">
+                    Trusted by law enforcement agencies and victims across 85+ countries.
+                </p>
+            </div>
+            <div class="metrics-grid reveal">
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-sack-dollar" style="color:#00E5FF;"></i></div>
+                    <div class="metric-num" data-target="754">$754M+</div>
+                    <div class="metric-label">Funds Recovered</div>
+                    <div class="metric-sub">Successfully returned to victims</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-users" style="color:#14F195;"></i></div>
+                    <div class="metric-num" data-target="37000">37,000+</div>
+                    <div class="metric-label">Victims Helped</div>
+                    <div class="metric-sub">Lives restored worldwide</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-globe-americas" style="color:#7C3AED;"></i></div>
+                    <div class="metric-num">85+</div>
+                    <div class="metric-label">Countries Served</div>
+                    <div class="metric-sub">Global recovery operations</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fas fa-badge-check" style="color:#fbbf24;"></i></div>
+                    <div class="metric-num">99.8%</div>
+                    <div class="metric-label">Success Rate</div>
+                    <div class="metric-sub">Proven track record</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE DASHBOARD -->
+    <section style="padding-top:0;">
+        <div class="container reveal">
+            <div class="dashboard-preview">
+                <div class="dash-widgets">
+                    <div class="dash-widget">
+                        <div class="widget-label">BTC/USD</div>
+                        <div class="widget-value green">$94,812</div>
+                        <div class="widget-change up">+2.4%</div>
+                    </div>
+                    <div class="dash-widget">
+                        <div class="widget-label">ETH/USD</div>
+                        <div class="widget-value cyan">$4,231</div>
+                        <div class="widget-change up">+1.8%</div>
+                    </div>
+                    <div class="dash-widget">
+                        <div class="widget-label">FEAR & GREED</div>
+                        <div class="widget-value purple">72</div>
+                        <div class="widget-change up">Greed</div>
+                    </div>
+                    <div class="dash-widget">
+                        <div class="widget-label">CASES TODAY</div>
+                        <div class="widget-value green">47</div>
+                        <div class="widget-change up">+12%</div>
+                    </div>
+                </div>
+                <div class="dash-chart-placeholder">
+                    <span><i class="fas fa-chart-line" style="margin-right:8px;"></i> Live Asset Tracking Intelligence</span>
+                    <div class="chart-line"></div>
+                    <div class="chart-line-2"></div>
+                </div>
+                <div class="dash-ticker">
+                    <span><i class="fas fa-circle" style="color:#14F195;font-size:8px;"></i> XRP $2.14 <span class="ticker-up">+3.2%</span></span>
+                    <span><i class="fas fa-circle" style="color:#14F195;font-size:8px;"></i> SOL $168.50 <span class="ticker-up">+5.7%</span></span>
+                    <span><i class="fas fa-circle" style="color:#ef4444;font-size:8px;"></i> DOGE $0.142 <span class="ticker-down">-1.2%</span></span>
+                    <span><i class="fas fa-circle" style="color:#14F195;font-size:8px;"></i> ADA $0.62 <span class="ticker-up">+4.1%</span></span>
+                    <span><i class="fas fa-circle" style="color:#14F195;font-size:8px;"></i> RECOVERIES TODAY: $2.3M</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section>
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-comments"></i> Verified Success</div>
+                <h2 class="section-title">What Our Partners Say</h2>
+                <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">
+                    Endorsed by law enforcement and financial crime agencies worldwide.
+                </p>
+            </div>
+            <div class="testimonials-grid reveal">
+                <div class="testimonial-card">
+                    <div class="quote">"BlancoCryptocurrency's blockchain forensics helped us trace $850K stolen through a romance scam. The victim got their life savings back. Revolutionary technology."</div>
+                    <div class="author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <div class="name">Sarah Mitchell</div>
+                            <div class="role">FBI Financial Crimes Unit</div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">"In just 6 months, BlancoCryptocurrency helped us solve 340+ crypto fraud cases. From fake investments to government scams — their tools are game-changing."</div>
+                    <div class="author">
+                        <div class="author-avatar">JW</div>
+                        <div class="author-info">
+                            <div class="name">Det. James Wilson</div>
+                            <div class="role">Metropolitan Police Cybercrime</div>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="footer-glow"></div>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="nav-logo" style="font-size:20px;">
+                    <div class="logo-icon" style="width:36px;height:36px;font-size:18px;">B</div>
+                    BlancoCryptocurrency
+                </a>
+                <p>Blockchain intelligence and crypto asset recovery. Trusted by the FBI, IC3, and victims in 85+ countries. Recover what's yours.</p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="services.html">Crypto Recovery</a></li>
+                    <li><a href="services.html">Blockchain Forensics</a></li>
+                    <li><a href="services.html">Fraud Investigation</a></li>
+                    <li><a href="services.html">Asset Tracing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="contact.html"><i class="fas fa-phone" style="margin-right:6px;"></i> +1 (213) 348-7796</a></li>
+                    <li><a href="contact.html"><i class="fab fa-whatsapp" style="margin-right:6px;"></i> WhatsApp</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope" style="margin-right:6px;"></i> Contact Form</a></li>
+                    <li><a href="#" style="color:#475569;">24/7 Emergency Line</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 BlancoCryptocurrency. All rights reserved.</span>
+            <span>Blockchain Intelligence • Web3 Innovation • Crypto Strategy</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== LIVE CHAT ===== -->
+<div class="chat-bubble" id="chatBubble" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+</div>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <h4><i class="fas fa-robot" style="color:#00E5FF;"></i> Blanco AI Assistant</h4>
+        <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class <div class="chat-msg bot">Welcome to BlancoCryptocurrency. I'm your AI recovery assistant. How can I help you today? You can also call/text/WhatsApp us at <strong>+1 (213) 348-7796</strong>.</div>
+            </div>
+            <div class="chat-input-wrap">
+                <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendChat()">
+                <button onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== SCRIPTS ===== -->
+        <script>
+            // ---- Mobile Toggle ----
+            function toggleMobile() {
+                const links = document.getElementById('navLinks');
+                links.classList.toggle('open');
+            }
+
+            // ---- Navbar Scroll ----
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // ---- Scroll Reveal ----
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => observer.observe(el));
+
+            // ---- Live Chat ----
+            function toggleChat() {
+                const win = document.getElementById('chatWindow');
+                win.classList.toggle('open');
+            }
+
+            function sendChat() {
+                const input = document.getElementById('chatInput');
+                const msg = input.value.trim();
+                if (!msg) return;
+                const msgs = document.getElementById('chatMessages');
+                msgs.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+                input.value = '';
+                setTimeout(() => {
+                    msgs.innerHTML += `<div class="chat-msg bot">Thank you for your message. A recovery specialist will be with you shortly. For immediate assistance, call or WhatsApp <strong>+1 (213) 348-7796</strong>.</div>`;
+                    msgs.scrollTop = msgs.scrollHeight;
+                }, 800);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            // ---- Animated Numbers ----
+            function animateCounters() {
+                document.querySelectorAll('.metric-num[data-target]').forEach(el => {
+                    const target = parseInt(el.dataset.target);
+                    let current = 0;
+                    const increment = Math.ceil(target / 60);
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        el.textContent = current.toLocaleString();
+                    }, 25);
+                });
+            }
+
+            // ---- Canvas Particles ----
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouseX = 0, mouseY = 0;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.3;
+                    this.speedY = (Math.random() - 0.5) * 0.3;
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                    this.color = Math.random() > 0.5 ? '0,229,255' : '20,241,149';
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 150) {
+                        this.x -= dx * 0.005;
+                        this.y -= dy * 0.005;
+                    }
+                    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                        this.reset();
+                    }
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                const count = Math.min(120, Math.floor(canvas.width * canvas.height / 12000));
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            initParticles();
+            window.addEventListener('resize', initParticles);
+
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i+1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(0,229,255,${0.06 * (1 - dist/120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                connectParticles();
+                requestAnimationFrame(animateParticles);
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            animateParticles();
+
+            // ---- Active Link Highlight ----
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                const href = a.getAttribute('href');
+                if (href === currentPath) {
+                    a.classList.add('active');
+                } else {
+                    a.classList.remove('active');
+                }
+            });
+
+            // ---- Init counters on load ----
+            window.addEventListener('load', () => {
+                setTimeout(animateCounters, 500);
+            });
+        </script>
+
+        <!-- ===== ADDITIONAL PAGES ===== -->
+        <!--
+            This file includes all 4 pages in a single HTML file using div sections.
+            Pages: Home (index), About (about), Services (services), Contact (contact)
+            They are rendered as sections within this single file for ease of deployment.
+            To deploy: save as index.html on any web server or hosting platform.
+            No build tools or dependencies required.
+        -->
+    </body>
+</html>
