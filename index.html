@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CipherTrackers - Crypto Recovery & Blockchain Intelligence</title>
     <meta name="description" content="Blockchain Intelligence • Web3 Innovation • Crypto Strategy. Trusted by the FBI, IC3, and Trustpilot. Recover your stolen crypto assets today."/>
+    <meta property="og:image" content="https://cyphertrackers.onrender.com/logo.png"/>
+<meta property="og:image:alt" content="CipherTrackers Logo"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./logo.jpeg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -407,6 +410,7 @@
             font-size: 36px; font-weight: 700;
             background: linear-gradient(135deg, #00E5FF, #14F195);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -425,6 +429,9 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 28px; font-weight: 700;
             color: #00E5FF;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .about-stat-card .label {
             font-size: 12px; color: #94A3B8; margin-top: 4px;
@@ -1008,6 +1015,11 @@
             font-size: 13px; font-weight: 500;
         }
         .badge-row .badge-pill i { font-size: 18px; }
+        .logo-icon-bg{width:46px;height:46px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 30px rgba(0,229,255,.25)}
+        .logo-icon-bg::before{content:'';position:absolute;inset:3px;background:var(--bg-primary);border-radius:9px;opacity:.85}
+        .logo-icon-bg .shield-symbol{position:relative;z-index:2;font-size:20px;color:var(--primary-glow);filter:drop-shadow(0 0 6px rgba(0,229,255,.5))}
+        .logo-icon-bg .check-mark{position:absolute;bottom:8px;right:7px;z-index:3;font-size:10px;color:var(--secondary-glow);filter:drop-shadow(0 0 4px rgba(20,241,149,.6))}
+        .logo-text{display:flex;flex-direction:column;line-height:1}
     </style>
 </head>
 <body>
@@ -1020,7 +1032,8 @@
 <nav class="navbar" id="navbar">
     <div class="container">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">C</div>
+            <div class="logo-icon logo-icon-bg"><i class="fas fa-shield-halved shield-symbol"></i>
+                <i class="fas fa-check check-mark"></i></div>
             CipherTrackers
         </a>
         <div id="mobileMenu">
@@ -1255,7 +1268,8 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <a href="index.html" class="nav-logo" style="font-size:20px;">
-                    <div class="logo-icon" style="width:36px;height:36px;font-size:18px;">C</div>
+                    <div class="logo-icon logo-icon-bg"><i class="fas fa-shield-halved shield-symbol"></i>
+                        <i class="fas fa-check check-mark"></i></div>
                     CipherTrackers
                 </a>
                 <p>Blockchain intelligence and crypto asset recovery. Trusted by the FBI, IC3, and victims in 85+ countries. Recover what's yours.</p>
