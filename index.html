@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CipherTrackers | Crypto Recovery — FBI & IC3 Verified Partner</title>
+    <meta name="description" content="CipherTrackers — Official crypto recovery partner for FBI/IC3 complainants. We work exclusively with victims who have filed official reports. Led by Mark Andrew. Call +1 (530) 690-3018."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --bg-primary: #030712;
+            --bg-secondary: #071827;
+            --primary-glow: #00E5FF;
+            --secondary-glow: #14F195;
+            --accent: #7C3AED;
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --card-bg: rgba(255,255,255,0.04);
+            --glass: rgba(255,255,255,0.06);
+            --border-glow: rgba(20,241,149,0.35);
+            --warning: #fbbf24;
+            --danger: #ef4444;
+            --heading: 'Space Grotesk', sans-serif;
+            --body: 'Inter', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth;scroll-padding-top:90px}
+        body{font-family:var(--body);background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;min-height:100vh}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--bg-primary)}
+        ::-webkit-scrollbar-thumb{background:var(--primary-glow);border-radius:3px}
+        a{text-decoration:none;color:inherit}
+        .container{max-width:1280px;margin:0 auto;padding:0 28px}
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+        .bg-overlay{position:fixed;top:0;left:0;width:100%;height:100%;
+            background:radial-gradient(ellipse at 20% 50%,rgba(0,229,255,0.04) 0%,transparent 55%),
+                       radial-gradient(ellipse at 80% 20%,rgba(20,241,149,0.04) 0%,transparent 55%),
+                       radial-gradient(ellipse at 50% 80%,rgba(124,58,237,0.04) 0%,transparent 55%);
+            z-index:0;pointer-events:none}
+
+        /* ===== LOGO ===== */
+        .logo-main{display:flex;align-items:center;gap:14px;font-family:var(--heading);font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.3px}
+        .logo-icon-wrap{position:relative;width:46px;height:46px;flex-shrink:0}
+        .logo-icon-bg{width:46px;height:46px;background:linear-gradient(135deg,#00E5FF,#14F195);border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 30px rgba(0,229,255,0.25)}
+        .logo-icon-bg::before{content:'';position:absolute;inset:3px;background:var(--bg-primary);border-radius:9px;opacity:0.85}
+        .logo-icon-bg .shield-symbol{position:relative;z-index:2;font-size:20px;color:var(--primary-glow);filter:drop-shadow(0 0 6px rgba(0,229,255,0.5))}
+        .logo-icon-bg .check-mark{position:absolute;bottom:8px;right:7px;z-index:3;font-size:10px;color:var(--secondary-glow);filter:drop-shadow(0 0 4px rgba(20,241,149,0.6))}
+        .logo-text{display:flex;flex-direction:column;line-height:1}
+        .logo-text .name{font-size:20px;font-weight:700;letter-spacing:-0.5px;background:linear-gradient(90deg,#fff,#94A3B8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-text .tagline{font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--primary-glow);-webkit-text-fill-color:var(--primary-glow);margin-top:1px}
+
+        /* ===== NAVBAR ===== */
+        .navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:14px 0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);background:transparent}
+        .navbar.scrolled{background:rgba(3,7,18,0.88);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border-bottom:1px solid rgba(0,229,255,0.07);padding:8px 0}
+        .navbar .container{display:flex;align-items:center;justify-content:space-between}
+        .nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+        .nav-links a{font-size:13px;font-weight:500;color:var(--text-secondary);transition:all 0.3s;position:relative;padding:4px 0;letter-spacing:0.3px}
+        .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--primary-glow),var(--secondary-glow));transition:width 0.3s;border-radius:1px}
+        .nav-links a:hover{color:#fff}
+        .nav-links a:hover::after{width:100%}
+        .nav-links a.active{color:var(--primary-glow)}
+        .nav-links a.active::after{width:100%}
+        .nav-cta{padding:10px 24px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));border:none;border-radius:8px;color:var(--bg-primary);font-weight:700;font-size:13px;cursor:pointer;transition:all 0.3s;box-shadow:0 0 20px rgba(0,229,255,0.2);letter-spacing:0.3px}
+        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,229,255,0.35)}
+        .mobile-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+        .mobile-toggle span{width:26px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s}
+
+        /* ===== PAGE HEADER ===== */
+        .page-header{position:relative;z-index:2;padding:140px 0 60px;text-align:center}
+        .page-header h1{font-family:var(--heading);font-size:52px;font-weight:700;margin-bottom:16px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .page-header p{font-size:18px;color:var(--text-secondary);max-width:640px;margin:0 auto;line-height:1.7}
+        .page-header .breadcrumb{display:flex;justify-content:center;gap:8px;font-size:13px;color:#475569;margin-top:14px;font-family:var(--mono)}
+        .page-header .breadcrumb span{color:var(--primary-glow)}
+
+        /* ===== HERO ===== */
+        .hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;padding:120px 0 80px}
+        .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+        .hero-content *{opacity:0;transform:translateY(30px);animation:fadeUp 0.9s forwards}
+        .hero-content>*:nth-child(1){animation-delay:0.1s}
+        .hero-content>*:nth-child(2){animation-delay:0.2s}
+        .hero-content>*:nth-child(3){animation-delay:0.3s}
+        .hero-content>*:nth-child(4){animation-delay:0.4s}
+        .hero-content>*:nth-child(5){animation-delay:0.5s}
+        @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:100px;font-size:12px;font-weight:600;color:var(--primary-glow);margin-bottom:24px;letter-spacing:0.5px;text-transform:uppercase}
+        .hero-badge i{font-size:11px}
+        .hero h1{font-family:var(--heading);font-size:68px;font-weight:700;line-height:1.05;margin-bottom:20px;letter-spacing:-1.5px}
+        .hero h1 .highlight{background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero p{font-size:17px;color:var(--text-secondary);line-height:1.8;max-width:540px;margin-bottom:32px}
+        .hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+        .btn-primary{padding:14px 32px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));border:none;border-radius:10px;color:var(--bg-primary);font-weight:700;font-size:14px;cursor:pointer;transition:all 0.3s;box-shadow:0 0 25px rgba(0,229,255,0.2);display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(0,229,255,0.35)}
+        .btn-secondary{padding:14px 32px;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+        .btn-secondary:hover{border-color:var(--primary-glow);box-shadow:0 0 30px rgba(0,229,255,0.1)}
+
+        .hero-visual{position:relative;display:flex;align-items:center;justify-content:center}
+        .hero-3d-container{width:100%;height:540px;position:relative}
+        .floating-cards{position:absolute;width:100%;height:100%}
+        .floating-card{position:absolute;padding:14px 20px;background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:10px;animation:float 6s ease-in-out infinite;box-shadow:0 8px 32px rgba(0,0,0,0.4);font-family:var(--mono)}
+        .floating-card i{font-size:16px}
+        .floating-card:nth-child(1){top:6%;left:5%;animation-delay:0s}
+        .floating-card:nth-child(2){top:52%;left:0%;animation-delay:1.2s}
+        .floating-card:nth-child(3){top:18%;right:5%;animation-delay:2.4s}
+        .floating-card:nth-child(4){bottom:15%;right:8%;animation-delay:0.6s}
+        .floating-card:nth-child(5){top:62%;right:22%;animation-delay:1.8s}
+        @keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-18px)}}
+        .hero-orb{width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,0.12),transparent 70%);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);filter:blur(50px);animation:orbPulse 5s ease-in-out infinite}
+        @keyframes orbPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.4}50%{transform:translate(-50%,-50%) scale(1.3);opacity:0.8}}
+        .hero-glow-ring{width:440px;height:440px;border-radius:50%;border:1px solid rgba(0,229,255,0.06);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:ringRotate 25s linear infinite}
+        .hero-glow-ring::before{content:'';position:absolute;top:-2px;left:50%;width:18px;height:3px;background:var(--primary-glow);border-radius:2px;box-shadow:0 0 20px var(--primary-glow)}
+        .hero-glow-ring-2{width:320px;height:320px;border-radius:50%;border:1px solid rgba(20,241,149,0.05);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:ringRotate 18s linear infinite reverse}
+        .hero-glow-ring-2::before{content:'';position:absolute;top:-2px;left:50%;width:12px;height:3px;background:var(--secondary-glow);border-radius:2px;box-shadow:0 0 20px var(--secondary-glow)}
+        @keyframes ringRotate{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+        .badge-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:32px}
+        .badge-row .badge-pill{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:100px;font-size:12px;font-weight:500;color:var(--text-secondary)}
+        .badge-row .badge-pill i{font-size:15px}
+
+        /* ===== TRUST BAR ===== */
+        .trust-bar{position:relative;z-index:2;padding:36px 0;border-top:1px solid rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.03)}
+        .trust-bar-inner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:32px 48px}
+        .trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-secondary)}
+        .trust-item i{font-size:24px}
+        .trust-item .stars{color:var(--warning);font-size:13px;letter-spacing:2px}
+
+        /* ===== SECTION BASE ===== */
+        section{position:relative;z-index:2;padding:100px 0}
+        .section-label{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.1);border-radius:100px;font-size:11px;font-weight:600;color:var(--primary-glow);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:16px;font-family:var(--mono)}
+        .section-title{font-family:var(--heading);font-size:42px;font-weight:700;margin-bottom:16px;letter-spacing:-0.5px}
+        .section-subtitle{font-size:17px;color:var(--text-secondary);max-width:600px;line-height:1.8;margin-bottom:48px}
+        .text-center{text-align:center}
+
+        /* ===== IMPORTANT NOTICE ===== */
+        .important-notice{background:rgba(251,191,36,0.03);border:1px solid rgba(251,191,36,0.1);border-radius:20px;padding:48px;margin:60px 0;position:relative;overflow:hidden}
+        .important-notice::before{content:'\26A0';position:absolute;top:20px;right:28px;font-size:56px;opacity:0.06;color:var(--warning)}
+        .important-notice h3{font-family:var(--heading);font-size:26px;font-weight:700;margin-bottom:20px;color:var(--warning)}
+        .important-notice p{color:#cbd5e1;font-size:15px;line-height:1.8;margin-bottom:12px}
+        .important-notice .highlight-box{background:rgba(255,255,255,0.02);border-left:3px solid var(--warning);padding:20px 24px;margin:20px 0;border-radius:0 12px 12px 0}
+        .important-notice .highlight-box strong{color:var(--warning)}
+
+        /* ===== ELIGIBILITY ===== */
+        .eligibility-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+        .eligibility-card{padding:28px;background:var(--card-bg);border:1px solid var(--glass);border-radius:16px;transition:all 0.4s;display:flex;gap:16px;align-items:flex-start}
+        .eligibility-card:hover{border-color:rgba(0,229,255,0.15);transform:translateY(-3px)}
+        .eligibility-card .e-icon{width:44px;height:44px;background:rgba(0,229,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+        .eligibility-card h4{font-size:16px;font-weight:600;margin-bottom:6px}
+        .eligibility-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+
+        /* ===== METRICS ===== */
+        .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .metric-card{text-align:center;padding:36px 20px;background:var(--card-bg);border:1px solid var(--glass);border-radius:16px;transition:all 0.4s}
+        .metric-card:hover{border-color:rgba(0,229,255,0.12);transform:translateY(-4px)}
+        .metric-card .metric-icon{font-size:28px;margin-bottom:10px}
+        .metric-card .metric-num{font-family:var(--heading);font-size:34px;font-weight:700;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .metric-card .metric-label{font-size:13px;color:var(--text-secondary);margin-top:4px}
+        .metric-card .metric-sub{font-size:11px;color:#475569;margin-top:4px}
+
+        /* ===== SERVICES GRID (for homepage preview) ===== */
+        .services-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .service-mini-card{padding:28px 24px;background:var(--card-bg);border:1px solid var(--glass);border-radius:14px;transition:all 0.4s;text-align:center}
+        .service-mini-card:hover{border-color:rgba(0,229,255,0.15);transform:translateY(-4px)}
+        .service-mini-card .sm-icon{width:48px;height:48px;margin:0 auto 14px;background:rgba(0,229,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .service-mini-card h4{font-size:15px;font-weight:600;margin-bottom:8px}
+        .service-mini-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+        /* ===== DASHBOARD PREVIEW ===== */
+        .dashboard-preview{background:rgba(255,255,255,0.02);border:1px solid var(--glass);border-radius:20px;padding:36px;position:relative;overflow:hidden}
+        .dashboard-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,0.2),transparent)}
+        .dash-widgets{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+        .dash-widget{padding:14px;background:rgba(255,255,255,0.02);border:1px solid var(--glass);border-radius:10px;text-align:center}
+        .dash-widget .widget-label{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:1.5px;font-family:var(--mono)}
+        .dash-widget .widget-value{font-family:var(--heading);font-size:20px;font-weight:700;margin-top:4px}
+        .dash-widget .widget-value.green{color:var(--secondary-glow)}
+        .dash-widget .widget-value.cyan{color:var(--primary-glow)}
+        .dash-widget .widget-value.purple{color:var(--accent)}
+        .dash-widget .widget-change{font-size:10px}
+        .dash-widget .widget-change.up{color:var(--secondary-glow)}
+        .dash-widget .widget-change.down{color:var(--danger)}
+        .dash-chart-placeholder{height:100px;background:rgba(255,255,255,0.02);border:1px solid var(--glass);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#475569;position:relative;overflow:hidden;margin-bottom:16px;font-family:var(--mono)}
+        .dash-chart-placeholder .chart-line{position:absolute;bottom:30%;left:5%;width:90%;height:2px;background:linear-gradient(90deg,var(--primary-glow),var(--secondary-glow));border-radius:1px;animation:chartMove 3s ease-in-out infinite}
+        @keyframes chartMove{0%,100%{transform:scaleY(1)}50%{transform:scaleY(2)}}
+        .dash-chart-placeholder .chart-line-2{position:absolute;bottom:55%;left:5%;width:90%;height:1px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0.3}
+        .dash-ticker{display:flex;gap:16px;padding:10px 0;border-top:1px solid var(--glass);border-bottom:1px solid var(--glass);overflow:hidden;flex-wrap:wrap}
+        .dash-ticker span{font-size:12px;color:var(--text-secondary);white-space:nowrap;font-family:var(--mono)}
+        .dash-ticker .ticker-up{color:var(--secondary-glow)}
+        .dash-ticker .ticker-down{color:var(--danger)}
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+        .testimonial-card{padding:28px;background:var(--card-bg);border:1px solid var(--glass);border-radius:16px;transition:all 0.4s}
+        .testimonial-card:hover{border-color:rgba(20,241,149,0.12);box-shadow:0 8px 32px rgba(20,241,149,0.02)}
+        .testimonial-card .quote{font-size:14px;color:#cbd5e1;line-height:1.7;margin-bottom:16px;font-style:italic}
+        .testimonial-card .author{display:flex;align-items:center;gap:12px}
+        .testimonial-card .author-avatar{width:38px;height:38px;border-radius:50%;background:rgba(0,229,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--primary-glow)}
+        .testimonial-card .author-info .name{font-size:14px;font-weight:600}
+        .testimonial-card .author-info .role{font-size:11px;color:#475569}
+        .testimonial-card .author-info .stars{color:var(--warning);font-size:11px}
+
+        /* ===== FOOTER ===== */
+        .footer{position:relative;z-index:2;border-top:1px solid var(--glass);padding:60px 0 30px;margin-top:40px}
+        .footer-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--primary-glow),var(--secondary-glow),transparent)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+        .footer-brand p{font-size:13px;color:#475569;margin-top:12px;line-height:1.7;max-width:320px}
+        .footer-socials{display:flex;gap:10px;margin-top:20px}
+        .footer-socials a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid var(--glass);display:flex;align-items:center;justify-content:center;font-size:15px;color:#475569;transition:all 0.3s}
+        .footer-socials a:hover{border-color:var(--primary-glow);color:var(--primary-glow);background:rgba(0,229,255,0.05)}
+        .footer-col h4{font-size:13px;font-weight:600;margin-bottom:18px;color:#fff;letter-spacing:0.5px}
+        .footer-col ul{list-style:none}
+        .footer-col ul li{margin-bottom:10px}
+        .footer-col ul a{font-size:13px;color:#475569;transition:all 0.3s}
+        .footer-col ul a:hover{color:var(--primary-glow)}
+        .footer-bottom{margin-top:40px;padding-top:20px;border-top:1px solid var(--glass);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#475569;font-family:var(--mono)}
+
+        /* ===== ANIMATIONS ===== */
+        .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+
+        /* ===== CHAT ===== */
+        .chat-bubble{position:fixed;bottom:24px;right:24px;z-index:999;width:54px;height:54px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--bg-primary);cursor:pointer;box-shadow:0 4px 30px rgba(0,229,255,0.25);transition:all 0.3s;animation:chatPulse 2.5s ease-in-out infinite}
+        .chat-bubble:hover{transform:scale(1.1)}
+        @keyframes chatPulse{0%,100%{box-shadow:0 4px 30px rgba(0,229,255,0.25)}50%{box-shadow:0 4px 50px rgba(0,229,255,0.4)}}
+        .chat-window{position:fixed;bottom:88px;right:24px;z-index:999;width:360px;max-height:480px;background:rgba(3,7,18,0.95);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(0,229,255,0.1);border-radius:16px;overflow:hidden;display:none;box-shadow:0 20px 80px rgba(0,0,0,0.6)}
+        .chat-window.open{display:flex;flex-direction:column}
+        .chat-header{padding:14px 18px;border-bottom:1px solid var(--glass);display:flex;align-items:center;justify-content:space-between}
+        .chat-header h4{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+        .chat-header .close-chat{background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:16px}
+        .chat-messages{padding:14px 18px;flex:1;overflow-y:auto;max-height:280px;display:flex;flex-direction:column;gap:10px}
+        .chat-msg{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.5;max-width:80%}
+        .chat-msg.bot{background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.06);align-self:flex-start}
+        .chat-msg.user{background:rgba(20,241,149,0.06);border:1px solid rgba(20,241,149,0.08);align-self:flex-end}
+        .chat-input-wrap{padding:10px 14px;border-top:1px solid var(--glass);display:flex;gap:8px}
+        .chat-input-wrap input{flex:1;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--glass);border-radius:8px;color:#fff;font-size:13px;outline:none}
+        .chat-input-wrap button{padding:10px 16px;background:linear-gradient(135deg,var(--primary-glow),var(--secondary-glow));border:none;border-radius:8px;color:var(--bg-primary);font-weight:600;font-size:12px;cursor:pointer}
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1024px){
+            .hero-grid{grid-template-columns:1fr;gap:40px}
+            .hero h1{font-size:48px}
+            .hero-visual{min-height:360px}
+            .metrics-grid,.services-mini-grid{grid-template-columns:repeat(2,1fr)}
+            .footer-grid{grid-template-columns:repeat(2,1fr)}
+            .dash-widgets{grid-template-columns:repeat(2,1fr)}
+            .eligibility-grid{grid-template-columns:repeat(2,1fr)}
+        }
+        @media(max-width:768px){
+            .nav-links,.nav-cta{display:none}
+            .mobile-toggle{display:flex}
+            .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(3,7,18,0.96);backdrop-filter:blur(24px);padding:20px 28px;gap:14px;border-bottom:1px solid var(--glass)}
+            .hero h1{font-size:34px}
+            .hero{padding:100px 0 60px}
+            section{padding:60px 0}
+            .section-title{font-size:28px}
+            .testimonials-grid,.eligibility-grid{grid-template-columns:1fr}
+            .metrics-grid,.services-mini-grid{grid-template-columns:1fr}
+            .important-notice{padding:28px}
+            .footer-grid{grid-template-columns:1fr}
+            .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+            .hero-buttons{flex-direction:column}
+            .badge-row{flex-direction:column;align-items:flex-start}
+            .page-header h1{font-size:32px}
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="bg-overlay"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="logo-main">
+                <div class="logo-icon-wrap">
+                    <div class="logo-icon-bg">
+                        <i class="fas fa-shield-halved shield-symbol"></i>
+                        <i class="fas fa-check check-mark"></i>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <span class="name">CipherTrackers</span>
+                    <span class="tagline">Blockchain Intelligence</span>
+                </div>
+            </a>
+            <div id="mobileMenu">
+                <button class="mobile-toggle" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <a href="contact.html" class="nav-cta"><i class="fas fa-headset" style="margin-right:6px;"></i> Get Help Now</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge"><i class="fas fa-shield-halved"></i> Official FBI & IC3 Recovery Partner</div>
+                    <h1>Recover Your<br><span class="highlight">Stolen Crypto</span><br>After You've Reported It</h1>
+                    <p><strong>CipherTrackers</strong> is a specialized crypto recovery service for victims who have filed official reports. We work <strong>exclusively</strong> with documented FBI/IC3 complainants and Trustpilot-verified victims. <strong>Led by Mark Andrew.</strong></p>
+                    <div class="hero-buttons">
+                        <a href="contact.html" class="btn-primary"><i class="fas fa-headset"></i> Start Your Recovery</a>
+                        <a href="#eligibility" class="btn-secondary"><i class="fas fa-question-circle"></i> See If You Qualify</a>
+                    </div>
+                    <div class="badge-row">
+                        <div class="badge-pill"><i class="fas fa-star" style="color:var(--warning);"></i> Trustpilot 4.9</div>
+                        <div class="badge-pill"><i class="fas fa-building-columns" style="color:var(--primary-glow);"></i> FBI Partnered</div>
+                        <div class="badge-pill"><i class="fas fa-gavel" style="color:var(--secondary-glow);"></i> IC3 Affiliated</div>
+                        <div class="badge-pill"><i class="fas fa-flag-usa" style="color:var(--accent);"></i> DOJ Compliant</div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-3d-container">
+                        <div class="hero-orb"></div>
+                        <div class="hero-glow-ring"></div>
+                        <div class="hero-glow-ring-2"></div>
+                        <div class="floating-cards">
+                            <div class="floating-card" style="color:var(--primary-glow);"><i class="fas fa-file-shield"></i> FBI Case # Required</div>
+                            <div class="floating-card" style="color:var(--secondary-glow);"><i class="fab fa-trustpilot"></i> Trustpilot Verified</div>
+                            <div class="floating-card" style="color:var(--accent);"><i class="fas fa-check-circle"></i> $754M Recovered</div>
+                            <div class="floating-card" style="color:var(--warning);"><i class="fas fa-id-card"></i> KYC Verified Only</div>
+                            <div class="floating-card" style="color:var(--primary-glow);"><i class="fas fa-globe"></i> 85+ Countries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+        <div class="container">
+            <div class="trust-bar-inner">
+                <div class="trust-item"><i class="fab fa-trustpilot" style="color:#00b67a;"></i><div><strong>Trustpilot</strong> <span class="stars">★★★★★</span> 4.9</div></div>
+                <div class="trust-item"><i class="fas fa-building-columns" style="color:var(--primary-glow);"></i><span><strong>FBI</strong> — Cyber Division Partner</span></div>
+                <div class="trust-item"><i class="fas fa-gavel" style="color:var(--secondary-glow);"></i><span><strong>IC3</strong> — Official Affiliate</span></div>
+                <div class="trust-item"><i class="fas fa-flag-usa" style="color:var(--accent);"></i><span><strong>DOJ</strong> — Compliance Certified</span></div>
+                <div class="trust-item"><i class="fas fa-building-columns" style="color:var(--warning);"></i><span><strong>FinCEN</strong> — Registered MSB</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMPORTANT NOTICE -->
+    <section style="padding-bottom:0;">
+        <div class="container">
+            <div class="important-notice reveal">
+                <h3><i class="fas fa-exclamation-triangle" style="margin-right:10px;"></i> How CipherTrackers Works — Read This</h3>
+                <p><strong>CipherTrackers is not a service for everyone.</strong> We specialize exclusively in helping victims who have <strong>already filed an official report</strong> with the FBI/IC3 or documented their scam on Trustpilot. We work within the system — not outside it.</p>
+                <div class="highlight-box">
+                    <strong>✅ You qualify if:</strong> You have a <u>FBI Internet Crime Complaint Center (IC3)</u> case number from <strong>www.ic3.gov</strong>, or you have posted a <u>Trustpilot review</u> documenting your scam, or you have an official police/federal case file.
+                </div>
+                <p><strong>❌ You do NOT qualify if:</strong> You have not reported your case anywhere. We require documented proof before we can begin any work.</p>
+                <p style="margin-top:16px;padding-top:16px;border-top:1px solid var(--glass);">
+                    <strong style="color:var(--warning);">⚠️ Important:</strong> Not everyone who contacts us gets their crypto back. Recovery depends on <strong>successful KYC/AML identity verification</strong> and complete transaction records. If you cannot complete verification or provide required documentation, <strong>we cannot guarantee recovery</strong>. We are transparent because false promises help no one.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section id="eligibility">
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-clipboard-check"></i> Qualification</div>
+                <h2 class="section-title">Do You Qualify for Our Help?</h2>
+                <p class="section-subtitle" style="margin:0 auto 48px;">We only accept documented, verified cases. Here's what we need from you.</p>
+            </div>
+            <div class="eligibility-grid reveal">
+                <div class="eligibility-card">
+                    <div class="e-icon" style="color:var(--primary-glow);"><i class="fas fa-building-columns"></i></div>
+                    <div>
+                        <h4>FBI / IC3 Case Number</h4>
+                        <p>You've filed a complaint at <strong>ic3.gov</strong> with a confirmation number. This is our primary intake channel. We coordinate directly with the FBI Cyber Division.</p>
+                    </div>
+                </div>
+                <div class="eligibility-card">
+                    <div class="e-icon" style="color:var(--secondary-glow);"><i class="fab fa-trustpilot"></i></div>
+                    <div>
+                        <h4>Trustpilot Scam Report</h4>
+                        <p>You've posted a verified review on Trustpilot documenting your scam. We cross-reference Trustpilot reports to identify legitimate victims.</p>
+                    </div>
+                </div>
+                <div class="eligibility-card">
+                    <div class="e-icon" style="color:var(--accent);"><i class="fas fa-police"></i></div>
+                    <div>
+                        <h4>Local Law Enforcement Report</h4>
+                        <p>You have a police report from your jurisdiction. We coordinate with international agencies to escalate your case.</p>
+                    </div>
+                </div>
+                <div class="eligibility-card">
+                    <div class="e-icon" style="color:var(--warning);"><i class="fas fa-id-card"></i></div>
+                    <div>
+                        <h4>KYC/AML Verification</h4>
+                        <p><strong>This is critical.</strong> You must pass identity verification with government-issued ID and provide complete transaction records. <u>Without verification, recovery is not possible.</u></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- METRICS -->
+    <section>
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-chart-simple"></i> Track Record</div>
+                <h2 class="section-title">Proven Results for Verified Cases</h2>
+                <p class="section-subtitle" style="margin:0 auto 48px;">Among qualified complainants who completed full verification.</p>
+            </div>
+            <div class="metrics-grid reveal">
+                <div class="metric-card"><div class="metric-icon"><i class="fas fa-sack-dollar" style="color:var(--primary-glow);"></i></div><div class="metric-num">$754M+</div><div class="metric-label">Funds Recovered</div><div class="metric-sub">Returned to verified victims</div></div>
+                <div class="metric-card"><div class="metric-icon"><i class="fas fa-users" style="color:var(--secondary-glow);"></i></div><div class="metric-num">37,000+</div><div class="metric-label">Verified Victims Helped</div><div class="metric-sub">With documented case files</div></div>
+                <div class="metric-card"><div class="metric-icon"><i class="fas fa-globe-americas" style="color:var(--accent);"></i></div><div class="metric-num">85+</div><div class="metric-label">Countries Served</div><div class="metric-sub">International case support</div></div>
+                <div class="metric-card"><div class="metric-icon"><i class="fas fa-badge-check" style="color:var(--warning);"></i></div><div class="metric-num">99.8%</div><div class="metric-label">Success Rate</div><div class="metric-sub">Among fully verified cases</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE PREVIEW -->
+    <section>
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-bolt"></i> Our Services</div>
+                <h2 class="section-title">What We Do</h2>
+                <p class="section-subtitle" style="margin:0 auto 48px;">Specialized recovery services for documented FBI/IC3 complainants.</p>
+            </div>
+            <div class="services-mini-grid reveal">
+                <div class="service-mini-card">
+                    <div class="sm-icon" style="color:var(--primary-glow);"><i class="fas fa-shield-halved"></i></div>
+                    <h4>Crypto Asset Recovery</h4>
+                    <p>End-to-end recovery of stolen crypto for verified complainants. Trace, freeze, and recover across blockchain networks.</p>
+                </div>
+                <div class="service-mini-card">
+                    <div class="sm-icon" style="color:var(--secondary-glow);"><i class="fas fa-microchip"></i></div>
+                    <h4>Blockchain Forensics</h4>
+                    <p>Advanced chain analysis tracing transaction flows and identifying wallet clusters for law enforcement.</p>
+                </div>
+                <div class="service-mini-card">
+                    <div class="sm-icon" style="color:var(--accent);"><i class="fas fa-search-dollar"></i></div>
+                    <h4>Fraud Investigation</h4>
+                    <p>Deep investigations into romance scams, investment fraud, and employment schemes. Works alongside your existing FBI case.</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top:32px;">
+                <a href="services.html" class="btn-secondary" style="display:inline-flex;">View All Services <i class="fas fa-arrow-right" style="margin-left:8px;"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section style="padding-top:0;">
+        <div class="container reveal">
+            <div class="dashboard-preview">
+                <div class="dash-widgets">
+                    <div class="dash-widget"><div class="widget-label">BTC/USD</div><div class="widget-value green">$94,812</div><div class="widget-change up">+2.4%</div></div>
+                    <div class="dash-widget"><div class="widget-label">ETH/USD</div><div class="widget-value cyan">$4,231</div><div class="widget-change up">+1.8%</div></div>
+                    <div class="dash-widget"><div class="widget-label">FEAR & GREED</div><div class="widget-value purple">72</div><div class="widget-change up">Greed</div></div>
+                    <div class="dash-widget"><div class="widget-label">CASES TODAY</div><div class="widget-value green">47</div><div class="widget-change up">+12%</div></div>
+                </div>
+                <div class="dash-chart-placeholder">
+                    <span><i class="fas fa-chart-line" style="margin-right:8px;"></i> Live Asset Tracking Intelligence</span>
+                    <div class="chart-line"></div>
+                    <div class="chart-line-2"></div>
+                </div>
+                <div class="dash-ticker">
+                    <span><i class="fas fa-circle" style="color:var(--secondary-glow);font-size:7px;"></i> XRP $2.14 <span class="ticker-up">+3.2%</span></span>
+                    <span><i class="fas fa-circle" style="color:var(--secondary-glow);font-size:7px;"></i> SOL $168.50 <span class="ticker-up">+5.7%</span></span>
+                    <span><i class="fas fa-circle" style="color:var(--danger);font-size:7px;"></i> DOGE $0.142 <span class="ticker-down">-1.2%</span></span>
+                    <span><i class="fas fa-circle" style="color:var(--secondary-glow);font-size:7px;"></i> ADA $0.62 <span class="ticker-up">+4.1%</span></span>
+                    <span><i class="fas fa-circle" style="color:var(--secondary-glow);font-size:7px;"></i> RECOVERIES TODAY: $2.3M</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section>
+        <div class="container">
+            <div class="text-center reveal">
+                <div class="section-label"><i class="fas fa-comments"></i> Verified Success</div>
+                <h2 class="section-title">Trusted by Law Enforcement</h2>
+                <p class="section-subtitle" style="margin:0 auto 48px;">Partners who work with us on documented, verified cases.</p>
+            </div>
+            <div class="testimonials-grid reveal">
+                <div class="testimonial-card">
+                    <div class="quote">"CipherTrackers' blockchain forensics helped us trace $850K stolen through a romance scam. The victim had filed an IC3 complaint and completed full KYC verification. Funds returned within 14 days."</div>
+                    <div class="author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info"><div class="name">Sarah Mitchell</div><div class="role">FBI Financial Crimes Unit</div><div class="stars">★★★★★</div></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote">"In 6 months, CipherTrackers helped us solve 340+ crypto fraud cases. Their requirement for verified IC3 complaints and strict KYC protocols ensures only legitimate victims are processed. This is how recovery should work."</div>
+                    <div class="author">
+                        <div class="author-avatar">JW</div>
+                        <div class="author-info"><div class="name">Det. James Wilson</div><div class="role">Metropolitan Police Cybercrime</div><div class="stars">★★★★★</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-glow"></div>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-main" style="font-size:18px;">
+                        <div class="logo-icon-wrap" style="width:38px;height:38px;">
+                            <div class="logo-icon-bg" style="width:38px;height:38px;font-size:16px;">
+                                <i class="fas fa-shield-halved shield-symbol" style="font-size:16px;"></i>
+                                <i class="fas fa-check check-mark" style="font-size:8px;bottom:6px;right:5px;"></i>
+                            </div>
+                        </div>
+                        <div class="logo-text">
+                            <span class="name" style="font-size:17px;">CipherTrackers</span>
+                            <span class="tagline" style="font-size:8px;">Blockchain Intelligence</span>
+                        </div>
+                    </a>
+                    <p>Official crypto recovery partner for FBI/IC3 complainants and Trustpilot-verified scam victims. Led by Mark Andrew.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Crypto Recovery</a></li>
+                        <li><a href="services.html">Blockchain Forensics</a></li>
+                        <li><a href="services.html">Fraud Investigation</a></li>
+                        <li><a href="services.html">Asset Tracing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-phone" style="margin-right:6px;width:14px;"></i> +1 (530) 690-3018</a></li>
+                        <li><a href="contact.html"><i class="fab fa-whatsapp" style="margin-right:6px;width:14px;"></i> WhatsApp</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope" style="margin-right:6px;width:14px;"></i> Contact Form</a></li>
+                        <li><a href="#" style="color:#475569;">Mark Andrew — Lead Specialist</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 CipherTrackers. All rights reserved.</span>
+                <span>Blockchain Intelligence • Web3 Innovation • Crypto Recovery</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CHAT -->
+    <div class="chat-bubble" id="chatBubble" onclick="toggleChat()"><i class="fas fa-comment-dots"></i></div>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h4><i class="fas fa-robot" style="color:var(--primary-glow);"></i> CipherTrackers AI</h4>
+            <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg bot">Welcome to CipherTrackers. Do you have an existing FBI/IC3 case number or a Trustpilot scam report? We only work with.chat-msg bot">Welcome to CipherTrackers. Do you have an existing FBI/IC3 case number or a Trustpilot scam report? We only work with documented cases. For immediate help, call/text/WhatsApp <strong>Mark Andrew at +1 (530) 690-3018</strong>.</div>
+        </div>
+        <div class="chat-input-wrap">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobile(){document.getElementById('navLinks').classList.toggle('open')}
+        window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)});
+        const ro=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add('visible')})},{threshold:.1});
+        document.querySelectorAll('.reveal').forEach(e=>ro.observe(e));
+        function toggleChat(){document.getElementById('chatWindow').classList.toggle('open')}
+        function sendChat(){const i=document.getElementById('chatInput'),m=i.value.trim();if(!m)return;const c=document.getElementById('chatMessages');c.innerHTML+=`<div class="chat-msg user">${m}</div>`;i.value='';setTimeout(()=>{c.innerHTML+=`<div class="chat-msg bot">Thank you. Do you have an FBI/IC3 case number or a Trustpilot report? Please call <strong>+1 (530) 690-3018</strong> or WhatsApp Mark Andrew for immediate assistance.</div>`;c.scrollTop=c.scrollHeight},800);c.scrollTop=c.scrollHeight}
+        document.querySelectorAll('.nav-links a').forEach(a=>{if(a.href.split('/').pop()==='index.html'||window.location.pathname.endsWith('/'))a.classList.add('active')});
+
+        const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');let particles=[],mx=0,my=0;
+        function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+        resize();window.addEventListener('resize',resize);
+        class P{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*2+.5;this.sx=(Math.random()-.5)*.3;this.sy=(Math.random()-.5)*.3;this.o=Math.random()*.5+.1;this.c=Math.random()>.5?'0,229,255':'20,241,149'}
+        update(){this.x+=this.sx;this.y+=this.sy;const dx=mx-this.x,dy=my-this.y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){this.x-=dx*.005;this.y-=dy*.005}if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}
+        draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=`rgba(${this.c},${this.o})`;ctx.fill()}}
+        function init(){particles=[];const c=Math.min(120,Math.floor(canvas.width*canvas.height/12000));for(let i=0;i<c;i++)particles.push(new P())}
+        init();window.addEventListener('resize',init);
+        function connect(){for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(0,229,255,${.06*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke()}}}}
+        function anim(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw()});connect();requestAnimationFrame(anim)}
+        document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});anim();
+    </script>
+</body>
+</html>
